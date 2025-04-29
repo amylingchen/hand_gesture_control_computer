@@ -1,20 +1,21 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
+import torch.nn.functional as F
+
 import numpy as np
-from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
+
 
 from torch.utils.data import Dataset, DataLoader, random_split
 from torch import nn
 from sklearn.preprocessing import LabelEncoder
 
+from config import *
 from utils import visualize_batch, plot_history
 
 
 class LSTMClassifier(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, num_classes):
+    def __init__(self, input_size=HAND_LENGTH, hidden_size=HIDDEN_SIZE, num_layers=NUM_LAYERS, num_classes=NUM_CLASSES):
         super(LSTMClassifier, self).__init__()
         self.lstm = nn.LSTM(
             input_size=input_size,
@@ -112,8 +113,9 @@ def predict(model, input_data, device):
             input_data = torch.tensor(input_data, dtype=torch.float32)
         input_data = input_data.to(device)
         outputs = model(input_data)
-        _, predicted = torch.max(outputs.data, 1)
-    return predicted.cpu().numpy()
+        probs = F.softmax(outputs, dim=1)
+        _, predicted = torch.max(probs, 1)
+    return predicted.cpu().numpy(), probs.cpu().numpy()
 
 class NPZDataset(Dataset):
     def __init__(self, npz_path, transform=None):
@@ -194,7 +196,12 @@ def create_dataloaders(npz_path, batch_size=32, val_ratio=0.2, test_ratio=0.1):
 
     return train_loader, val_loader, test_loader
 
-
+def load_model(model, path="checkpoint.pth", device='cpu'):
+    checkpoint = torch.load(path, map_location=device, weights_only=False)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    history = checkpoint['history']
+    print(f"load model from {path} successful")
+    return model, history
 
 # 示例用法
 if __name__ == "__main__":
