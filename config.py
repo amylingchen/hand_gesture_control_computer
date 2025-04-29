@@ -1,0 +1,1 @@
+ACTIONS = ['Doing other things','Swiping Down','Swiping Up','Zooming In', 'Zooming Out',]
