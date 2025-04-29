@@ -1,15 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, Dataset, random_split
+
 import numpy as np
-from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
-
-from torch.utils.data import Dataset, DataLoader, random_split
-from torch import nn
+from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
-
 from utils import visualize_batch, plot_history
 
 
