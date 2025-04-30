@@ -25,11 +25,7 @@ cap = cv2.VideoCapture('datasets/gesture.mp4')
 labels = [0,15,18,23,25]
 seq = []
 action_seq = []
-actions = ['Doing other things',
- 'Swiping Down',
- 'Swiping Up',
- 'Zooming In With Full Hand',
- 'Zooming Out With Full Hand']
+
 while cap.isOpened():
     ret, img = cap.read()
     img0 = img.copy()
@@ -52,7 +48,7 @@ while cap.isOpened():
         if conf < 0.9:
             continue
 
-        action = actions[action_id]
+        action = ACTIONS[action_id]
         action_seq.append(action)
 
         if len(action_seq) < 3:
