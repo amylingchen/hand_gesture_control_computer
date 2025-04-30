@@ -235,4 +235,4 @@ if __name__ == "__main__":
     torch.save({
         'model_state_dict': model.state_dict(),
         'history': history
-    }, 'lstm_model.pth')
+    }, 'model/lstm_model.pth')

@@ -58,20 +58,20 @@ def recognize_gesture(seq,model,device='cpu',actions=ACTIONS):
 
 def execute_document_action(gesture, frame):
 
-    if gesture == Gesture.SWIPE_UP:
+    if gesture == 1:
         pyautogui.scroll(300)
         print("↑ Swiped Up ")
-    elif gesture == Gesture.SWIPE_DOWN:
+    elif gesture == 2:
         pyautogui.scroll(-300)
         print("↓ Swiped Down ")
-    elif gesture == Gesture.ZOOM_IN:
+    elif gesture == 3:
         pyautogui.hotkey('ctrl', '+')
         print(" Zoom In ")
-    elif gesture == Gesture.ZOOM_OUT:
+    elif gesture == 4:
         pyautogui.hotkey('ctrl', '-')
         print(" Zoom Out ")
 
 
-    cv2.putText(frame, f"Action: {gesture.name}",
+    cv2.putText(frame, f"Action: {ACTIONS[gesture]}",
                 (frame.shape[1] // 2 - 100, frame.shape[0] // 2),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)

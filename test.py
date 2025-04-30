@@ -21,7 +21,8 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
-cap = cv2.VideoCapture('datasets/gesture.mp4')
+# cap = cv2.VideoCapture('datasets/gesture.mp4')
+cap = cv2.VideoCapture(0)
 labels = [0,15,18,23,25]
 seq = []
 action_seq = []
@@ -59,13 +60,16 @@ while cap.isOpened():
             continue
 
         this_action = '?'
-        if action_seq[-1] == action_seq[-2] == action_seq[-3]:
+        if len(action_seq) >= 9 and all(a == action for a in action_seq[-9:]):
             this_action = action
             print(this_action)
-        cv2.putText(img, f'{this_action.upper()}', org=(int(hand.landmark[0].x * img.shape[1]), int(hand.landmark[0].y * img.shape[0] + 20)), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
+            execute_document_action(action_id, frame=img)
+            # print(this_action)
+        # cv2.putText(img, f'{this_action.upper()}', org=(int(hand.landmark[0].x * img.shape[1]), int(hand.landmark[0].y * img.shape[0] + 20)), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
 
     # out.write(img0)
     # out2.write(img)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     cv2.imshow('img', img)
     if cv2.waitKey(1) == ord('q'):
         break
