@@ -11,7 +11,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #load_mode
 model = LSTMClassifier(input_size=HAND_LENGTH,hidden_size=HIDDEN_SIZE,num_layers=NUM_LAYERS,num_classes=NUM_CLASSES)
-model,history= load_model(model,path='model/lstm_model.pth',device=device)
+model,history= load_model(model,path='model/lstm_model_15.pth',device=device)
 
 # MediaPipe hands model
 mp_hands = mp.solutions.hands
@@ -21,8 +21,8 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
-# cap = cv2.VideoCapture('datasets/gesture.mp4')
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('datasets/gesture.mp4')
+# cap = cv2.VideoCapture(0)
 labels = [0,15,18,23,25]
 seq = []
 action_seq = []
@@ -56,7 +56,7 @@ while cap.isOpened():
             continue
 
         this_action = '?'
-        if len(action_seq) >= 9 and all(a == action for a in action_seq[-9:]):
+        if len(action_seq) >= 5 and all(a == action for a in action_seq[-5:]):
             this_action = action
             print(this_action)
             execute_document_action(action_id, frame=img)
