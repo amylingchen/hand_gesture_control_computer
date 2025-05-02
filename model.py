@@ -46,7 +46,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, device, epochs=
         model.train()
         epoch_train_loss, epoch_train_correct = 0, 0
 
-        # 训练阶段
+        # train
         for batch_x, batch_y in train_loader:
             batch_x, batch_y = batch_x.to(device), batch_y.to(device)
 
@@ -60,10 +60,10 @@ def train(model, train_loader, val_loader, criterion, optimizer, device, epochs=
             _, predicted = torch.max(outputs.data, 1)
             epoch_train_correct += (predicted == batch_y).sum().item()
 
-        # 验证阶段
+        # validate
         val_result = evaluate(model, val_loader, criterion, device)
 
-        # 记录数据
+
         train_loss = epoch_train_loss / len(train_loader)
         train_acc = epoch_train_correct / len(train_loader.dataset)
 
