@@ -203,36 +203,3 @@ def load_model(model, path="checkpoint.pth", device='cpu'):
     print(f"load model from {path} successful")
     return model, history
 
-# 示例用法
-if __name__ == "__main__":
-    train_loader, val_loader, test_loader = create_dataloaders(
-        npz_path="datasets/seq/seq_train.npz",
-        batch_size=16,
-        val_ratio=0.2,
-        test_ratio=0.1
-    )
-
-    # 2. 可视化检查
-    print("\n训练集示例:")
-    visualize_batch(train_loader)
-
-    print("\n验证集示例:")
-    visualize_batch(val_loader)
-
-    # 3. 初始化模型
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = LSTMClassifier(input_size=8, hidden_size=64, num_layers=2, num_classes=3).to(device)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-    # 4. 训练并记录历史数据
-    history = train(model, train_loader, val_loader, criterion, optimizer, device, epochs=15)
-
-    # 5. 可视化训练曲线
-    plot_history(history)
-
-    # 6. 保存训练结果（可选）
-    torch.save({
-        'model_state_dict': model.state_dict(),
-        'history': history
-    }, 'model/lstm_model.pth')
