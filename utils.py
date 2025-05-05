@@ -19,12 +19,11 @@ def plot_history(history,save_path=None):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.legend()
-
-    plt.tight_layout()
-    plt.show()
+    # plt.tight_layout()
     if save_path:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"train history saved to {save_path}")
+    plt.show()
 
 
 def plot_confusion_matrix(y_true, y_pred, classes, normalize=False,

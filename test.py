@@ -2,8 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from model import *
-from utils import *
-from config import *
+
 from operations import *
 
 seq_length = SEQ_LENGTH
@@ -11,7 +10,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #load_mode
 model = LSTMClassifier(input_size=HAND_LENGTH,hidden_size=HIDDEN_SIZE,num_layers=NUM_LAYERS,num_classes=NUM_CLASSES)
-model,history= load_model(model,path='model/lstm_model _15.pth',device=device)
+model,history= load_model(model,path='model/lstm_model_15.pth',device=device)
 
 # MediaPipe hands model
 mp_hands = mp.solutions.hands
@@ -21,8 +20,8 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
-# cap = cv2.VideoCapture('datasets/gesture.mp4')
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('datasets/gesture.mp4')
+# cap = cv2.VideoCapture(0)
 labels = [0,15,18,23,25]
 seq = []
 action_seq = []
@@ -34,9 +33,16 @@ while cap.isOpened():
     img = cv2.flip(img, 1)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     feature,hand =extract_hand_features(img,hands)
+
+
+
     if feature is not None:
         seq.append(feature)
-        mp_drawing.draw_landmarks(img, hand, mp_hands.HAND_CONNECTIONS)
+        mp_drawing.draw_landmarks(
+            img,
+            hand,
+            mp_hands.HAND_CONNECTIONS,
+        )
 
         if len(seq) < seq_length:
             continue
@@ -58,7 +64,6 @@ while cap.isOpened():
         this_action = '?'
         if len(action_seq) >= 5 and all(a == action for a in action_seq[-5:]):
             this_action = action
-            print(this_action)
             execute_document_action(action_id, frame=img)
             # print(this_action)
         # cv2.putText(img, f'{this_action.upper()}', org=(int(hand.landmark[0].x * img.shape[1]), int(hand.landmark[0].y * img.shape[0] + 20)), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)

@@ -19,6 +19,7 @@ class Gesture(Enum):
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
 
+
 def extract_hand_features(img, hands):
     try:
 
