@@ -18,7 +18,7 @@
 
 ## 🛠️ Installation
 ```bash
-git clone https://github.com/yourusername/gesture-control-system.git
+git clone https://github.com/amylingchen/hand_gesture_control_computer.git
 cd hand_gesture_control_computer
 pip install -r requirements.txt
 ```
