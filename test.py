@@ -62,7 +62,7 @@ while cap.isOpened():
             continue
 
         this_action = '?'
-        if len(action_seq) >= 5 and all(a == action for a in action_seq[-5:]):
+        if len(action_seq) >= 4 and all(a == action for a in action_seq[-4:]):
             this_action = action
             execute_document_action(action_id, frame=img)
             # print(this_action)
