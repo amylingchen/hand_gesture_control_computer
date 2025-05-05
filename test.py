@@ -25,9 +25,11 @@ cap = cv2.VideoCapture('datasets/gesture.mp4')
 labels = [0,15,18,23,25]
 seq = []
 action_seq = []
-
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 while cap.isOpened():
     ret, img = cap.read()
+
     img0 = img.copy()
 
     img = cv2.flip(img, 1)

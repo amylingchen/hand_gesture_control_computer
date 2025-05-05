@@ -23,8 +23,6 @@ hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
 def extract_hand_features(img, hands):
     try:
 
-
-
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = hands.process(img_rgb)
 
@@ -60,10 +58,10 @@ def recognize_gesture(seq,model,device='cpu',actions=ACTIONS):
 def execute_document_action(gesture, frame):
 
     if gesture == 1:
-        pyautogui.scroll(300)
+        pyautogui.scroll(200)
         print("↑ Swiped Up ")
     elif gesture == 2:
-        pyautogui.scroll(-300)
+        pyautogui.scroll(-200)
         print("↓ Swiped Down ")
     elif gesture == 3:
         pyautogui.hotkey('ctrl', '+')
